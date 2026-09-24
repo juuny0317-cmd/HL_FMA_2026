@@ -1,0 +1,240 @@
+{
+  "name": "course_07_parking_smoothed",
+  "drive_ready": false,
+  "reason": "curvature and direction phases are authored; steering slew and vehicle swept-volume clearance remain unvalidated",
+  "minimum_radius_m": 1.5,
+  "maximum_curvature_per_m": 0.6666666666666666,
+  "course_09_omitted_capture_artifacts": [
+    144,
+    145
+  ],
+  "final_branch_definition": {
+    "common_fork": "course_07:756",
+    "FINAL_1": "course_09:192-195",
+    "FINAL_2": "course_07:756-782"
+  },
+  "intentional_phase_boundaries": {
+    "T_1": [
+      "course_09:35 forward-to-reverse",
+      "course_09:52 reverse-to-forward"
+    ],
+    "T_2": [
+      "course_09:65 forward-to-reverse",
+      "course_09:84 reverse-to-forward"
+    ],
+    "PARALLEL_1": [
+      "C09-143 forward-to-reverse",
+      "derived 1.40 m straight-tail endpoint anchored at C09-131 reverse-to-forward",
+      "C09-143 exit complete"
+    ],
+    "PARALLEL_2": [
+      "P1-copy start projected onto the P1 first-forward path using C09-167 forward-to-reverse",
+      "derived 1.40 m straight-tail endpoint anchored at C09-167 reverse-to-forward",
+      "4.00 m transition onto P1 first-forward suffix and common-path exit complete"
+    ]
+  },
+  "variants": {
+    "p1_t1_f1": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_1",
+      "FINAL_COMMON",
+      "FINAL_1"
+    ],
+    "p1_t1_f2": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_1",
+      "FINAL_COMMON",
+      "FINAL_2"
+    ],
+    "p1_t2_f1": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_1",
+      "FINAL_COMMON",
+      "FINAL_1"
+    ],
+    "p1_t2_f2": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_1",
+      "FINAL_COMMON",
+      "FINAL_2"
+    ],
+    "p2_t1_f1": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_2",
+      "FINAL_COMMON",
+      "FINAL_1"
+    ],
+    "p2_t1_f2": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_2",
+      "FINAL_COMMON",
+      "FINAL_2"
+    ],
+    "p2_t2_f1": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_2",
+      "FINAL_COMMON",
+      "FINAL_1"
+    ],
+    "p2_t2_f2": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_2",
+      "FINAL_COMMON",
+      "FINAL_2"
+    ]
+  },
+  "phase_metrics": {
+    "T1_APPROACH": {
+      "smoothing": 0.11441838717665671,
+      "maximum_curvature_per_m": 0.6492947669911593,
+      "minimum_radius_m": 1.5401325420101775,
+      "maximum_deviation_m": 0.22621789072523438,
+      "rms_deviation_m": 0.047314689664610936
+    },
+    "T1_PARKING_CURVE": {
+      "smoothing": 0.03339464877872365,
+      "maximum_curvature_per_m": 0.618748831761518,
+      "minimum_radius_m": 1.616164667581023,
+      "maximum_deviation_m": 0.09080104135697074,
+      "rms_deviation_m": 0.032296355062526885
+    },
+    "T1_EXIT": {
+      "smoothing": 0.03895195393267262,
+      "maximum_curvature_per_m": 0.6526125410323463,
+      "minimum_radius_m": 1.532302763318236,
+      "maximum_deviation_m": 0.09411718878782512,
+      "rms_deviation_m": 0.025234540961426803
+    },
+    "T2_APPROACH": {
+      "smoothing": 0.052994888565991695,
+      "maximum_curvature_per_m": 0.6637767568236301,
+      "minimum_radius_m": 1.5065306064425914,
+      "maximum_deviation_m": 0.13038200683558776,
+      "rms_deviation_m": 0.030047603619658934
+    },
+    "T2_PARKING_CURVE": {
+      "smoothing": 0.011967251798908998,
+      "maximum_curvature_per_m": 0.6591921483067298,
+      "minimum_radius_m": 1.5170083602614277,
+      "maximum_deviation_m": 0.047573228837012156,
+      "rms_deviation_m": 0.01906214017744297
+    },
+    "T2_EXIT": {
+      "smoothing": 0.024545514785012244,
+      "maximum_curvature_per_m": 0.6385438427363979,
+      "minimum_radius_m": 1.5660631785511048,
+      "maximum_deviation_m": 0.07038506165682797,
+      "rms_deviation_m": 0.026452556106583307
+    },
+    "P1_PATH": {
+      "smoothing": 0.20119684672364554,
+      "maximum_curvature_per_m": 0.5826047424871504,
+      "minimum_radius_m": 1.7164295569084822,
+      "maximum_deviation_m": 0.3335494067554081,
+      "rms_deviation_m": 0.05505291043382232
+    },
+    "P2_PATH": {
+      "smoothing": 0.27373221097915085,
+      "maximum_curvature_per_m": 0.6493985710695479,
+      "minimum_radius_m": 1.539886357238233,
+      "maximum_deviation_m": 0.18170625464718076,
+      "rms_deviation_m": 0.0724965225682116
+    },
+    "FINAL1_PATH": {
+      "smoothing": 0.6548713469614554,
+      "maximum_curvature_per_m": 0.6598774140218381,
+      "minimum_radius_m": 1.5154329861135478,
+      "maximum_deviation_m": 0.5106408734257819,
+      "rms_deviation_m": 0.10207543421940042
+    },
+    "FINAL2_PATH": {
+      "smoothing": 0.004074064075488903,
+      "maximum_curvature_per_m": 0.35428241049793696,
+      "minimum_radius_m": 2.822606966556764,
+      "maximum_deviation_m": 0.03828378215005395,
+      "rms_deviation_m": 0.012783645838337078
+    }
+  },
+  "parallel_revision_metrics": {
+    "p1_t1_f1": {
+      "file": "course_07_p1_t1_f1_fair_fsm_preview.csv",
+      "points": 6995,
+      "bypass_points": 235,
+      "bypass_length_m": 23.323299092740452,
+      "reverse_start_x_m": -26.032,
+      "reverse_start_y_m": -25.8765,
+      "reverse_depth_m": 10.895264238215375,
+      "straight_alignment_tail_m": 1.4,
+      "maximum_parking_tail_curvature_inv_m": 0.4155752126712546,
+      "minimum_parking_tail_radius_m": 2.4063032864066924,
+      "maximum_parking_tail_steering_deg": 13.55171696916976,
+      "path_reference": "recorded course_09:131-143",
+      "maximum_path_reference_deviation_m": 0.8765111282626531,
+      "original_forward_parking_reference": "C09-131",
+      "original_forward_parking_alignment_error_m": 0.0,
+      "first_forward_path_reference": "generated P1 cubic bypass",
+      "vehicle_maximum_steering_deg": 27.501974166279513,
+      "approach_heading_deg": 67.3774898696628,
+      "parking_axis_heading_deg": 157.37748986966278,
+      "approach_to_parking_axis_deg": 90.0,
+      "early_stop_heading_error_deg": 2.5444437451708134e-14,
+      "maximum_spacing_m": 0.10010739233443447,
+      "maximum_bypass_curvature_inv_m": 0.2453816853927285,
+      "minimum_bypass_radius_m": 4.075283770259871,
+      "post_exit_connector_length_m": 0,
+      "maximum_post_exit_curvature_inv_m": 0.0,
+      "maximum_post_exit_steering_deg": 0.0,
+      "post_exit_path_reference": null,
+      "maximum_post_exit_deviation_from_p1_first_forward_m": 0.0,
+      "minimum_post_exit_radius_m": null
+    },
+    "p2_t1_f1": {
+      "file": "course_07_p2_t1_f1_fair_fsm_preview.csv",
+      "points": 6997,
+      "bypass_points": 180,
+      "bypass_length_m": 17.851775189030818,
+      "reverse_start_x_m": -21.090642110571164,
+      "reverse_start_y_m": -28.114359340102357,
+      "reverse_depth_m": 10.895264238215374,
+      "straight_alignment_tail_m": 1.4,
+      "maximum_parking_tail_curvature_inv_m": 0.4155752126712546,
+      "minimum_parking_tail_radius_m": 2.4063032864066924,
+      "maximum_parking_tail_steering_deg": 13.55171696916976,
+      "path_reference": "exact P1 parking-tail copy translated to a reverse-start point on the P1 first-forward path and aligned to recorded C09-167",
+      "maximum_path_reference_deviation_m": 0.0,
+      "original_forward_parking_reference": "C09-167",
+      "original_forward_parking_alignment_error_m": 0.1840552024288379,
+      "first_forward_path_reference": "exact prefix of the matching P1 first-forward path",
+      "vehicle_maximum_steering_deg": 27.501974166279513,
+      "approach_heading_deg": 67.7197904230966,
+      "parking_axis_heading_deg": 157.7197904230966,
+      "approach_to_parking_axis_deg": 90.0,
+      "early_stop_heading_error_deg": 0.34230055343380617,
+      "maximum_spacing_m": 0.10010739233443447,
+      "maximum_bypass_curvature_inv_m": 0.2453816853927285,
+      "minimum_bypass_radius_m": 4.075283770259871,
+      "post_exit_connector_length_m": 5.508734288986616,
+      "maximum_post_exit_curvature_inv_m": 0.3390381291329774,
+      "maximum_post_exit_steering_deg": 11.124820654865395,
+      "post_exit_path_reference": "4.00 m cubic transition, then the exact P1 first-forward suffix",
+      "maximum_post_exit_deviation_from_p1_first_forward_m": 0.33704977531805624,
+      "minimum_post_exit_radius_m": 2.9495207590877794
+    }
+  }
+}

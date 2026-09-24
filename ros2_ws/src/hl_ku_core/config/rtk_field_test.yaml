@@ -1,0 +1,37 @@
+# 차량 없이 UM982와 안테나만 들고 하는 RTK/웨이포인트 현장 시험 설정.
+um982_serial:
+  ros__parameters:
+    port: /dev/serial/by-path/pci-0000:00:14.0-usb-0:2.3:1.0-port0
+    baudrate: 115200
+    frame_id: gnss_main
+    require_checksum: true
+    # 수신기에 저장되어 어제 검증된 RTK/헤딩 설정을 변경하지 않는다.
+    configure_receiver: false
+    startup_commands: [""]
+    serial_reconnect_sec: 1.0
+    # 1 Hz 헤딩 문장 사이를 허용하고, 1.5초가 지나면 무효 처리한다.
+    heading_timeout_sec: 1.5
+    position_timeout_sec: 0.30
+    velocity_timeout_sec: 0.30
+
+ntrip_client:
+  ros__parameters:
+    # 현장 이동통신의 짧은 지연으로 불필요하게 재접속하지 않는다.
+    rtcm_idle_timeout_sec: 10.0
+
+rtk_waypoint_recorder:
+  ros__parameters:
+    minimum_satellites: 15
+    maximum_hdop: 1.5
+    maximum_correction_age_sec: 2.0
+    maximum_fix_age_sec: 0.5
+    averaging_window_sec: 1.0
+    minimum_samples: 3
+    # 0은 Enter 후 새 RTK FIX가 들어올 때까지 시간제한 없이 기다린다.
+    capture_wait_timeout_sec: 0.0
+    # 가까운 점도 기록한다. 완전히 같은 좌표만 0길이 경로 방지를 위해 거부한다.
+    minimum_waypoint_spacing_m: 0.0
+    # RViz 실제 이동 궤적은 5 cm 이상 움직였을 때 점을 추가한다.
+    live_track_minimum_spacing_m: 0.05
+    target_speed_mps: 0.30
+    allow_overwrite: false

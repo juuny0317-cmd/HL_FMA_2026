@@ -1,0 +1,229 @@
+{
+  "description": "Course 07 CSV parking branches and HILL_STOP moved 1.5 m upstream",
+  "source_sha256": "f6858bea19a6aac5fd4fca472208da652b4729b293be1c1393a0dbdb4bb7f0ce",
+  "source_file": "parallel_parking_source.csv",
+  "source_segments_used": [
+    "P_entry",
+    "P1_reverse",
+    "P1_exit",
+    "P2_reverse",
+    "P2_exit"
+  ],
+  "source_segments_trimmed": [
+    "to_forward3",
+    "P_entry before trim index"
+  ],
+  "coordinate_frame": "competition datum ENU",
+  "datum": {
+    "latitude_deg": 37.28894632868334,
+    "longitude_deg": 127.10763692118333,
+    "altitude_m": 90.66108
+  },
+  "entry_blend_m": 2.0,
+  "exit_blend_m": 4.0,
+  "hill_stop_upstream_shift_m": 1.5,
+  "software_route_generated": true,
+  "field_geometry_validated": false,
+  "variants": {
+    "p1_t1_f1": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6568,
+      "exit_gap_before_blending_m": 0.5068,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4513,
+      "exit_max_discrete_curvature_inv_m": 0.2805,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 697.8032,
+      "point_count": 6769,
+      "hill_stop": {
+        "old_s_m": 34.1405,
+        "new_s_m": 32.6405,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8447,
+          10.6526
+        ]
+      }
+    },
+    "p1_t1_f2": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6570,
+      "exit_gap_before_blending_m": 0.5058,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4513,
+      "exit_max_discrete_curvature_inv_m": 0.2805,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 697.0498,
+      "point_count": 6761,
+      "hill_stop": {
+        "old_s_m": 34.1405,
+        "new_s_m": 32.6405,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8447,
+          10.6526
+        ]
+      }
+    },
+    "p1_t2_f1": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6591,
+      "exit_gap_before_blending_m": 0.5072,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4513,
+      "exit_max_discrete_curvature_inv_m": 0.2805,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 700.1626,
+      "point_count": 6791,
+      "hill_stop": {
+        "old_s_m": 34.1453,
+        "new_s_m": 32.6453,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8436,
+          10.6572
+        ]
+      }
+    },
+    "p1_t2_f2": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6593,
+      "exit_gap_before_blending_m": 0.5058,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4513,
+      "exit_max_discrete_curvature_inv_m": 0.2805,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 699.4073,
+      "point_count": 6784,
+      "hill_stop": {
+        "old_s_m": 34.1453,
+        "new_s_m": 32.6453,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8436,
+          10.6572
+        ]
+      }
+    },
+    "p2_t1_f1": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6570,
+      "exit_gap_before_blending_m": 0.5068,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4312,
+      "exit_max_discrete_curvature_inv_m": 0.4054,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 712.4201,
+      "point_count": 6845,
+      "hill_stop": {
+        "old_s_m": 34.1405,
+        "new_s_m": 32.6405,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8447,
+          10.6526
+        ]
+      }
+    },
+    "p2_t1_f2": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6572,
+      "exit_gap_before_blending_m": 0.5058,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4312,
+      "exit_max_discrete_curvature_inv_m": 0.4054,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 711.6667,
+      "point_count": 6837,
+      "hill_stop": {
+        "old_s_m": 34.1405,
+        "new_s_m": 32.6405,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8447,
+          10.6526
+        ]
+      }
+    },
+    "p2_t2_f1": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6593,
+      "exit_gap_before_blending_m": 0.5072,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4312,
+      "exit_max_discrete_curvature_inv_m": 0.4054,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 714.7795,
+      "point_count": 6867,
+      "hill_stop": {
+        "old_s_m": 34.1453,
+        "new_s_m": 32.6453,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8436,
+          10.6572
+        ]
+      }
+    },
+    "p2_t2_f2": {
+      "source_trim_point_index": 49,
+      "entry_gap_before_blending_m": 0.0736,
+      "source_to_route_exit_join_index": 6595,
+      "exit_gap_before_blending_m": 0.5058,
+      "entry_max_discrete_curvature_inv_m": 0.6213,
+      "reverse_max_discrete_curvature_inv_m": 0.4312,
+      "exit_max_discrete_curvature_inv_m": 0.4054,
+      "spliced_max_discrete_curvature_inv_m": 0.6193,
+      "length_m": 714.0244,
+      "point_count": 6860,
+      "hill_stop": {
+        "old_s_m": 34.1453,
+        "new_s_m": 32.6453,
+        "upstream_shift_m": 1.5,
+        "old_xy_m": [
+          -32.2842,
+          11.0737
+        ],
+        "new_xy_m": [
+          -30.8436,
+          10.6572
+        ]
+      }
+    }
+  }
+}

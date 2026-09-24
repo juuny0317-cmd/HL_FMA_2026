@@ -1,0 +1,14 @@
+# 이 파일을 ntrip_private.yaml로 복사한 뒤 공급자 계정을 입력한다.
+# ntrip_private.yaml은 .gitignore에 포함되어 저장소에 올라가지 않는다.
+ntrip_client:
+  ros__parameters:
+    enabled: true
+    host: "caster.example.com"
+    port: 2101
+    mountpoint: "MOUNTPOINT"
+    username: "USERNAME"
+    password: "PASSWORD"
+    tls: false
+    gga_period_sec: 5.0
+    reconnect_sec: 3.0
+    rtcm_idle_timeout_sec: 3.0

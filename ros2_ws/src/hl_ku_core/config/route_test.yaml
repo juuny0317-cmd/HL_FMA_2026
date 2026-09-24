@@ -1,0 +1,87 @@
+# 현재 차량용 전역경로 저속 시험 오버라이드.
+# 조향 ADC와 부호는 기존 track_drive 설정을 그대로 유지한다.
+um982_serial:
+  ros__parameters:
+    port: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+    baudrate: 115200
+
+path_tracker:
+  ros__parameters:
+    wheelbase_m: 0.58
+    maximum_steering_rad: 0.48
+    lookahead_base_m: 0.80
+    lookahead_speed_gain_sec: 0.40
+    # 전진 경로 실제 조향: Stanley 100%. Pure Pursuit는 진단값으로만 계산한다.
+    stanley_gain: 0.65
+    stanley_softening_mps: 0.65
+    stanley_control_offset_m: 0.58
+    stanley_heading_baseline_m: 1.0
+    curvature_preview_m: 3.0
+    curvature_segment_count: 3
+    # 첫 전역경로 시험에서는 카메라 차선 보정을 섞지 않는다.
+    enable_lane_correction: false
+
+mission_manager:
+  ros__parameters:
+    auto_arm: false
+    default_speed_mps: 0.35
+    hill_speed_mps: 0.25
+    maximum_steering_rad: 0.48
+
+vehicle_controller:
+  ros__parameters:
+    # 기존 차량에서 사용하던 drive 명령 8~12를 저속 feed-forward로 사용한다.
+    # 실제 GNSS 속도 측정 전까지 PI를 켜지 않는다.
+    kp: 0.0
+    ki: 0.0
+    maximum_duty: 0.12
+    maximum_forward_speed_mps: 0.45
+    maximum_reverse_speed_mps: 0.20
+    forward_speeds_mps: [0.10, 0.25, 0.45]
+    forward_duties: [0.08, 0.10, 0.12]
+    reverse_speeds_mps: [0.10, 0.20]
+    reverse_duties: [0.08, 0.10]
+
+safety_supervisor:
+  ros__parameters:
+    require_rtk_fixed: true
+    require_perception: true
+    require_camera: false
+    require_lidar: true
+    autonomous_maximum_drive_duty: 0.12
+    autonomous_maximum_steering_rad: 0.48
+    manual_maximum_drive_duty: 0.12
+    manual_maximum_steering_rad: 0.48
+    minimum_gnss_satellites: 15
+    emergency_distance_m: 0.75
+
+keyboard_teleop:
+  ros__parameters:
+    initial_drive_duty: 0.08
+    maximum_drive_duty: 0.12
+    drive_duty_step: 0.01
+    maximum_steering_rad: 0.48
+    steering_step_rad: 0.048
+
+nucleo_serial_bridge:
+  ros__parameters:
+    # NUCLEO ST-LINK mux의 제어 채널. 라이다 채널은 /tmp/nucleo-lidar다.
+    port: /tmp/nucleo-control
+    baudrate: 115200
+    send_rate_hz: 20.0
+    command_timeout_sec: 0.20
+    serial_timeout_sec: 0.05
+    maximum_consecutive_ack_failures: 3
+    drive_command_scale: 100.0
+    maximum_drive_command: 12
+    allow_reverse: false
+    maximum_steering_rad: 0.48
+    steer_left_adc: 58744
+    steer_center_adc: 31974
+    steer_right_adc: 5111
+
+route_recorder:
+  ros__parameters:
+    minimum_spacing_m: 0.20
+    default_speed_mps: 0.30
+    allow_overwrite: false

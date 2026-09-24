@@ -1,0 +1,40 @@
+{
+  "name": "hl-ku-fma-dashboard",
+  "displayName": "HL KU FMA Dashboard",
+  "description": "Mission FSM, route, perception, GNSS, vehicle and rosbag replay monitor for HL KU FMA",
+  "publisher": "hl-ku",
+  "homepage": "https://github.com/juuny0317-cmd/HL_FMA_2026",
+  "version": "0.1.2",
+  "license": "Apache-2.0",
+  "main": "./dist/extension.js",
+  "keywords": [
+    "foxglove",
+    "ros2",
+    "fma",
+    "fsm",
+    "rosbag"
+  ],
+  "scripts": {
+    "build": "foxglove-extension build",
+    "foxglove:prepublish": "foxglove-extension build --mode production",
+    "lint": "eslint .",
+    "local-install": "foxglove-extension install",
+    "package": "foxglove-extension package",
+    "pretest": "foxglove-extension pretest"
+  },
+  "devDependencies": {
+    "@foxglove/eslint-plugin": "^2.0.0",
+    "@foxglove/extension": "^2.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "create-foxglove-extension": "^1.3.2",
+    "eslint": "^9.0.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "ts-loader": "^9.6.2",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

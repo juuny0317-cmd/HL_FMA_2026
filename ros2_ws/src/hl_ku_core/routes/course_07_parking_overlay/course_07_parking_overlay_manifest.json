@@ -1,0 +1,483 @@
+{
+  "name": "course_07_parking_overlay",
+  "drive_ready": false,
+  "reason": "hill stop and parallel reverse maneuver are authored; speeds and vehicle swept-volume clearance remain unvalidated",
+  "coordinate_frame": "course_07 datum ENU",
+  "course_07_datum_file": "SOURCE_DATA/course_07_datum.yaml",
+  "sources": {
+    "course_07_route": "SOURCE_DATA/course_07_route.csv",
+    "course_09_wgs84": "SOURCE_DATA/course_09_wgs84.csv",
+    "rosbag_role": "vehicle-feasibility reference used to confirm the parking and finish alternatives; reset/U-turn travel is not inserted"
+  },
+  "flow": [
+    "MAIN_00",
+    {
+      "choose_one": [
+        "T_1",
+        "T_2"
+      ]
+    },
+    "MAIN_01",
+    {
+      "choose_one": [
+        [
+          "PARALLEL_1_BYPASS",
+          "PARALLEL_1_REVERSE",
+          "PARALLEL_1_EXIT",
+          "FINAL_COMMON"
+        ],
+        [
+          "PARALLEL_2_BYPASS",
+          "PARALLEL_2_REVERSE",
+          "PARALLEL_2_EXIT",
+          "PARALLEL_2_POST_EXIT"
+        ]
+      ]
+    },
+    {
+      "choose_one": [
+        "FINAL_1",
+        "FINAL_2"
+      ]
+    }
+  ],
+  "source_ranges_inclusive": {
+    "T_1": [
+      "course_09:12-64",
+      "course_07:405-413 merge tail"
+    ],
+    "T_2": [
+      "course_09:12-35 common approach",
+      "course_09:65-100"
+    ],
+    "PARALLEL_1": [
+      "derived cubic bypass C09-106 to C09-143",
+      "degree-7 curvature-continuous fit of course_09:143-131 reverse plus derived 1.40 m approach-normal-aligned tail",
+      "derived aligned endpoint through degree-7 fit of course_09:131-143 forward exit"
+    ],
+    "PARALLEL_2": [
+      "exact prefix of the P1 cubic bypass from course_07:704 vicinity to the P2 reverse start projected from the C09-167 parking reference",
+      "exact translated copy of the complete P1 reverse-parking path, including its 1.40 m straight alignment tail",
+      "forward exit by retracing the same copied P1 path",
+      "4.00 m cubic transition onto the P1 first-forward suffix, then the exact P1 suffix and FINAL_COMMON"
+    ],
+    "FINAL_1": [
+      "course_07:756 fork",
+      "course_09:192-195"
+    ],
+    "FINAL_2": [
+      "course_07:756-782"
+    ]
+  },
+  "preview_speed_mps": 0.0,
+  "maximum_preview_spacing_m": 0.3,
+  "variants": {
+    "p1_t1_f1": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_1_BYPASS",
+      "PARALLEL_1_REVERSE",
+      "PARALLEL_1_EXIT",
+      "FINAL_COMMON",
+      "FINAL_1"
+    ],
+    "p1_t1_f2": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_1_BYPASS",
+      "PARALLEL_1_REVERSE",
+      "PARALLEL_1_EXIT",
+      "FINAL_COMMON",
+      "FINAL_2"
+    ],
+    "p1_t2_f1": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_1_BYPASS",
+      "PARALLEL_1_REVERSE",
+      "PARALLEL_1_EXIT",
+      "FINAL_COMMON",
+      "FINAL_1"
+    ],
+    "p1_t2_f2": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_1_BYPASS",
+      "PARALLEL_1_REVERSE",
+      "PARALLEL_1_EXIT",
+      "FINAL_COMMON",
+      "FINAL_2"
+    ],
+    "p2_t1_f1": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_2_BYPASS",
+      "PARALLEL_2_REVERSE",
+      "PARALLEL_2_EXIT",
+      "PARALLEL_2_POST_EXIT",
+      "FINAL_1"
+    ],
+    "p2_t1_f2": [
+      "MAIN_00",
+      "T_1",
+      "MAIN_01",
+      "PARALLEL_2_BYPASS",
+      "PARALLEL_2_REVERSE",
+      "PARALLEL_2_EXIT",
+      "PARALLEL_2_POST_EXIT",
+      "FINAL_2"
+    ],
+    "p2_t2_f1": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_2_BYPASS",
+      "PARALLEL_2_REVERSE",
+      "PARALLEL_2_EXIT",
+      "PARALLEL_2_POST_EXIT",
+      "FINAL_1"
+    ],
+    "p2_t2_f2": [
+      "MAIN_00",
+      "T_2",
+      "MAIN_01",
+      "PARALLEL_2_BYPASS",
+      "PARALLEL_2_REVERSE",
+      "PARALLEL_2_EXIT",
+      "PARALLEL_2_POST_EXIT",
+      "FINAL_2"
+    ]
+  },
+  "joins": {
+    "p1_t1_f1": [
+      {
+        "from": "MAIN_00",
+        "to": "T_1",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_1",
+        "to": "MAIN_01",
+        "distance_m": 0.8239
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_1_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_1_BYPASS",
+        "to": "PARALLEL_1_REVERSE",
+        "distance_m": 0.2032
+      },
+      {
+        "from": "PARALLEL_1_REVERSE",
+        "to": "PARALLEL_1_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_1_EXIT",
+        "to": "FINAL_COMMON",
+        "distance_m": 0.875
+      },
+      {
+        "from": "FINAL_COMMON",
+        "to": "FINAL_1",
+        "distance_m": 0.0
+      }
+    ],
+    "p1_t1_f2": [
+      {
+        "from": "MAIN_00",
+        "to": "T_1",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_1",
+        "to": "MAIN_01",
+        "distance_m": 0.8239
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_1_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_1_BYPASS",
+        "to": "PARALLEL_1_REVERSE",
+        "distance_m": 0.2032
+      },
+      {
+        "from": "PARALLEL_1_REVERSE",
+        "to": "PARALLEL_1_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_1_EXIT",
+        "to": "FINAL_COMMON",
+        "distance_m": 0.875
+      },
+      {
+        "from": "FINAL_COMMON",
+        "to": "FINAL_2",
+        "distance_m": 0.0
+      }
+    ],
+    "p1_t2_f1": [
+      {
+        "from": "MAIN_00",
+        "to": "T_2",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_2",
+        "to": "MAIN_01",
+        "distance_m": 0.892
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_1_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_1_BYPASS",
+        "to": "PARALLEL_1_REVERSE",
+        "distance_m": 0.2032
+      },
+      {
+        "from": "PARALLEL_1_REVERSE",
+        "to": "PARALLEL_1_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_1_EXIT",
+        "to": "FINAL_COMMON",
+        "distance_m": 0.875
+      },
+      {
+        "from": "FINAL_COMMON",
+        "to": "FINAL_1",
+        "distance_m": 0.0
+      }
+    ],
+    "p1_t2_f2": [
+      {
+        "from": "MAIN_00",
+        "to": "T_2",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_2",
+        "to": "MAIN_01",
+        "distance_m": 0.892
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_1_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_1_BYPASS",
+        "to": "PARALLEL_1_REVERSE",
+        "distance_m": 0.2032
+      },
+      {
+        "from": "PARALLEL_1_REVERSE",
+        "to": "PARALLEL_1_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_1_EXIT",
+        "to": "FINAL_COMMON",
+        "distance_m": 0.875
+      },
+      {
+        "from": "FINAL_COMMON",
+        "to": "FINAL_2",
+        "distance_m": 0.0
+      }
+    ],
+    "p2_t1_f1": [
+      {
+        "from": "MAIN_00",
+        "to": "T_1",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_1",
+        "to": "MAIN_01",
+        "distance_m": 0.8239
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_2_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_2_BYPASS",
+        "to": "PARALLEL_2_REVERSE",
+        "distance_m": 0.1146
+      },
+      {
+        "from": "PARALLEL_2_REVERSE",
+        "to": "PARALLEL_2_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_EXIT",
+        "to": "PARALLEL_2_POST_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_POST_EXIT",
+        "to": "FINAL_1",
+        "distance_m": 0.0
+      }
+    ],
+    "p2_t1_f2": [
+      {
+        "from": "MAIN_00",
+        "to": "T_1",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_1",
+        "to": "MAIN_01",
+        "distance_m": 0.8239
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_2_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_2_BYPASS",
+        "to": "PARALLEL_2_REVERSE",
+        "distance_m": 0.1146
+      },
+      {
+        "from": "PARALLEL_2_REVERSE",
+        "to": "PARALLEL_2_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_EXIT",
+        "to": "PARALLEL_2_POST_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_POST_EXIT",
+        "to": "FINAL_2",
+        "distance_m": 0.0
+      }
+    ],
+    "p2_t2_f1": [
+      {
+        "from": "MAIN_00",
+        "to": "T_2",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_2",
+        "to": "MAIN_01",
+        "distance_m": 0.892
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_2_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_2_BYPASS",
+        "to": "PARALLEL_2_REVERSE",
+        "distance_m": 0.1146
+      },
+      {
+        "from": "PARALLEL_2_REVERSE",
+        "to": "PARALLEL_2_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_EXIT",
+        "to": "PARALLEL_2_POST_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_POST_EXIT",
+        "to": "FINAL_1",
+        "distance_m": 0.0
+      }
+    ],
+    "p2_t2_f2": [
+      {
+        "from": "MAIN_00",
+        "to": "T_2",
+        "distance_m": 1.2987
+      },
+      {
+        "from": "T_2",
+        "to": "MAIN_01",
+        "distance_m": 0.892
+      },
+      {
+        "from": "MAIN_01",
+        "to": "PARALLEL_2_BYPASS",
+        "distance_m": 0.7796
+      },
+      {
+        "from": "PARALLEL_2_BYPASS",
+        "to": "PARALLEL_2_REVERSE",
+        "distance_m": 0.1146
+      },
+      {
+        "from": "PARALLEL_2_REVERSE",
+        "to": "PARALLEL_2_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_EXIT",
+        "to": "PARALLEL_2_POST_EXIT",
+        "distance_m": 0.3
+      },
+      {
+        "from": "PARALLEL_2_POST_EXIT",
+        "to": "FINAL_2",
+        "distance_m": 0.0
+      }
+    ]
+  },
+  "parallel_revision": {
+    "hill_stop_source": "C09-002",
+    "hill_hold_sec": 3.2,
+    "bypass_method": "P1 cubic Bezier with endpoint tangent constraints; P2 exact prefix of the P1 first-forward path",
+    "bypass_control_length_m": 6.0,
+    "parking_alignment_straight_tail_m": 1.4,
+    "parking_approach_heading_baseline_m": 1.0,
+    "parking_alignment_basis": "left normal of the route tangent immediately before PARALLEL_PARK_START",
+    "parking_alignment_angle_from_approach_deg": 90.0,
+    "parking_curve_method": "P1 uses a regularized degree-7 Bezier fit with fixed endpoint tangents and zero endpoint second derivatives; P2 is an exact translated copy of the complete P1 parking tail",
+    "parking_curve_derivative_scale": 0.9,
+    "parking_curve_regularization": 3.0,
+    "parking_maximum_curvature_inv_m": 0.45,
+    "parking_minimum_radius_m": 2.2222222222222223,
+    "vehicle_wheelbase_m": 0.58,
+    "vehicle_maximum_steering_deg": 27.501974166279513,
+    "P1_park_complete_source": "C09-131",
+    "P2_park_complete_source": "C09-167",
+    "P2_original_forward_parking_reference": "C09-167",
+    "P2_template_alignment_max_error_m": 0.25,
+    "P2_reverse_start_method": "project the C09-167-aligned P1 tail start onto the exact P1 first-forward path",
+    "P2_first_forward_template": "exact prefix of the P1 bypass",
+    "P2_path_template": "exact translated copy of the P1 parking tail",
+    "P2_exit_rejoin_method": "4.00 m tangent-constrained cubic transition followed by the exact P1 first-forward suffix",
+    "P2_exit_rejoin_start_control_m": 1.6,
+    "P2_exit_rejoin_end_control_m": 1.4,
+    "P2_exit_rejoin_max_deviation_m": 0.35,
+    "generator": "operations/rebuild_course_07_parallel_and_hill.py"
+  }
+}

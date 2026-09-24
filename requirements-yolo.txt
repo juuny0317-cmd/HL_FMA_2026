@@ -1,0 +1,5 @@
+# Keep YOLO dependencies outside the ROS apt-managed packages when possible.
+# The installed vehicle currently uses Ultralytics 8.3.91, Torch 2.13.0 and
+# OpenCV 4.11 with ROS 2 Humble-compatible NumPy 1.x.
+ultralytics>=8.3,<8.5
+numpy<2

@@ -1,0 +1,34 @@
+# 손가락(WASD) 시험 전용 설정.
+# W/S는 키당 PWM 10씩 누적하고 A/D는 0.096 rad씩 누적해 그 각도를 유지한다.
+safety_supervisor:
+  ros__parameters:
+    manual_maximum_drive_duty: 1.0
+    manual_maximum_steering_rad: 0.48
+
+keyboard_teleop:
+  ros__parameters:
+    drive_control_mode: incremental
+    initial_drive_duty: 0.10
+    maximum_drive_duty: 1.0
+    drive_duty_step: 0.10
+    # A/D를 누를 때마다 약 5.5도 이동한다. 중앙에서 최대 조향까지 5번이며,
+    # 다음 입력 전까지 마지막 목표각을 유지한다.
+    steering_control_mode: incremental
+    maximum_steering_rad: 0.48
+    steering_step_rad: 0.096
+    deadman_timeout_sec: 0.20
+    steering_hold_sec: 0.30
+    publish_rate_hz: 50.0
+
+nucleo_serial_bridge:
+  ros__parameters:
+    # ST-LINK 멀티플렉서의 순간 응답 지연이 1회 fault로 이어지지 않게 한다.
+    serial_timeout_sec: 0.05
+    maximum_consecutive_ack_failures: 3
+    drive_command_scale: 100.0
+    maximum_drive_command: 100
+    allow_reverse: true
+    maximum_steering_rad: 0.48
+    steer_left_adc: 58744
+    steer_center_adc: 31974
+    steer_right_adc: 5111

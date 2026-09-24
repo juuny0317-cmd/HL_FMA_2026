@@ -1,0 +1,25 @@
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+/build/
+/install/
+/log/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+*.bak_*
+*.bag
+*.db3
+*.mcap
+*.mcap.tmp
+bags/
+/data/
+/logs/
+node_modules/
+node_modules
+dist/
+ros2_ws/src/hl_ku_core/config/ntrip_private.yaml
+# 새 PC에서는 operations/setup_new_pc.sh가 apt 패키지로 설치한다.
+# 현장 PC에 수동 clone한 SLAMTEC 소스는 작업 산출물로 취급한다.
+ros2_ws/src/rplidar_ros/

@@ -1,0 +1,51 @@
+{
+  "configById": {
+    "hl-ku-fma-dashboard.HL KU Dashboard!overview": {
+      "view": "overview",
+      "bagStartSec": 1788589641.6319368,
+      "bagEndSec": 1788590789.2265995
+    },
+    "hl-ku-fma-dashboard.HL KU Dashboard!perception": {
+      "view": "perception",
+      "bagStartSec": 1788589641.6319368,
+      "bagEndSec": 1788590789.2265995
+    },
+    "hl-ku-fma-dashboard.HL KU Dashboard!gnss": {
+      "view": "gnss",
+      "bagStartSec": 1788589641.6319368,
+      "bagEndSec": 1788590789.2265995
+    },
+    "hl-ku-fma-dashboard.HL KU Dashboard!variants": {
+      "view": "variants",
+      "bagStartSec": 1788589641.6319368,
+      "bagEndSec": 1788590789.2265995
+    },
+    "Tab!main-v2": {
+      "activeTabIdx": 0,
+      "tabs": [
+        {
+          "title": "운행 · FSM",
+          "layout": "hl-ku-fma-dashboard.HL KU Dashboard!overview"
+        },
+        {
+          "title": "카메라 · YOLO",
+          "layout": "hl-ku-fma-dashboard.HL KU Dashboard!perception"
+        },
+        {
+          "title": "GNSS · 차량상태",
+          "layout": "hl-ku-fma-dashboard.HL KU Dashboard!gnss"
+        },
+        {
+          "title": "8경로 통합점검",
+          "layout": "hl-ku-fma-dashboard.HL KU Dashboard!variants"
+        }
+      ]
+    }
+  },
+  "layout": "Tab!main-v2",
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  }
+}

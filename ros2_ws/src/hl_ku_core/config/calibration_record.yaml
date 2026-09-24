@@ -1,0 +1,166 @@
+# HL_KU 실차 설정 원본 기록. 측정값, 측정일, 담당자를 함께 남긴다.
+project:
+  vehicle_id: "HENES_BROON_T870"
+  measured_at: ""
+  operators: []
+  rules_revision: "HL FMA 2026-08-14"
+
+power:
+  battery_chemistry: ""
+  series_cells: 0
+  fully_charged_voltage_v: 0.0
+  competition_voltage_rule_confirmed: false
+  main_fuse_a: 0.0
+  logic_regulator_v: 0.0
+  physical_estop_verified: true
+
+network:
+  host_ip: 192.168.10.10
+  nucleo_ip: 192.168.10.20
+  netmask: 255.255.255.0
+  command_port: 15000
+  feedback_port: 15001
+
+vehicle_geometry:
+  wheelbase_m: 0.0
+  track_width_front_m: 0.0
+  track_width_rear_m: 0.0
+  rear_axle_to_front_bumper_m: 0.0
+  rear_axle_to_rear_bumper_m: 0.0
+  body_width_m: 0.0
+  maximum_left_steering_rad: 0.0
+  maximum_right_steering_rad: 0.0
+
+gnss:
+  board_model: "UM982 carrier board model/revision"
+  firmware_version: ""
+  usb_maps_to_receiver_port: "COM1/COM2/COM3 확인"
+  baudrate: 115200
+  ant1_role: master_position
+  ant2_role: slave_heading
+  baseline_m: 0.0
+  baseline_tolerance_m: 0.02
+  antenna_model: ""
+  antenna_cable_length_m: 0.0
+  datum_latitude_deg: 37.54206438203333
+  datum_longitude_deg: 127.07848376843333
+  datum_altitude_m: 20.02515
+  datum_survey_sigma_m: 0.0
+  base_to_ant1_x_m: 0.802
+  base_to_ant1_y_m: 0.0
+  base_to_ant1_z_m: 0.0
+  heading_mount_offset_deg: 180.0
+  ntrip_provider: ""
+  ntrip_mountpoint: ""
+  average_correction_age_sec: 0.0
+  rtk_fixed_ratio: 0.0
+  heading_valid_ratio: 0.0
+
+camera:
+  model: ""
+  serial: ""
+  driver_package: ""
+  image_topic: /camera/image_raw
+  frame_id: camera_link
+  resolution: [0, 0]
+  fps: 0.0
+  focus: ""
+  exposure: ""
+  white_balance: ""
+  intrinsic_calibration_file: ""
+  reprojection_error_px: 0.0
+  base_to_camera_xyz_m: [0.0, 0.0, 0.0]
+  base_to_camera_rpy_rad: [0.0, 0.0, 0.0]
+  ground_homography_file: ""
+  ground_projection_max_error_m: 0.0
+  lane_meters_per_pixel: 0.0
+  lane_roi_top_ratio: 0.0
+  traffic_roi: [0.0, 0.0, 0.0, 0.0]
+  flat_lane_verified: false
+  uphill_lane_verified: false
+  traffic_light_verified: false
+  end_lane_signal_verified: false
+
+lidar:
+  model: ""
+  serial: ""
+  driver_package: ""
+  scan_topic: /scan
+  frame_id: lidar_link
+  scan_rate_hz: 0.0
+  angle_zero_is_vehicle_forward: false
+  positive_angle_is_vehicle_left: false
+  base_to_lidar_xyz_m: [0.0, 0.0, 0.0]
+  base_to_lidar_rpy_rad: [0.0, 0.0, 0.0]
+  lidar_to_front_bumper_m: 0.0
+  range_bias_m: 0.0
+  minimum_reliable_range_m: 0.0
+  vehicle_half_width_m: 0.0
+  corridor_margin_m: 0.0
+  lidar_odometry_topic: /lidar/odometry
+  t870_cluster_verified: false
+  child_dummy_verified: false
+
+sensor_alignment:
+  camera_lidar_projection_max_error_px: 0.0
+  maximum_timestamp_skew_sec: 0.0
+  flat_course_bag: ""
+  uphill_bag: ""
+  traffic_bag: ""
+  obstacle_bag: ""
+  wet_weather_bag: ""
+
+steering:
+  feedback_sensor_type: "NUCLEO ADC position control (existing vehicle setup)"
+  # 기존 track_drive/nucleo_motor_bridge.py의 검증된 설정을 보존한다.
+  adc_left: 58744
+  adc_center: 31974
+  adc_right: 5111
+  left_angle_rad: 0.0
+  right_angle_rad: 0.0
+  feedback_max_error_rad: 0.0
+  kp: 0.0
+  ki: 0.0
+  kd: 0.0
+  pwm_limit: 0.0
+
+traction:
+  driver: MDD20A
+  motor_model: ""
+  gear_ratio: 0.0
+  drive_duty_limit: 0.0
+  drive_slew_per_sec: 0.0
+  forward_speeds_mps: []
+  forward_duties: []
+  reverse_speeds_mps: []
+  reverse_duties: []
+  test_voltage_v: 0.0
+  hill_hold_enabled: false
+  hill_hold_duty: 0.0
+  dry_braking_distance_m: {}
+  wet_braking_distance_m: {}
+  # 차륜 공중/직선 시험 후 12와 실측 제동거리를 기록한다.
+  route_test_drive_command_limit: 0
+  low_speed_braking_distance_m: 0.0
+
+course:
+  route_file: "course_04_vehicle.csv"
+  route_calibrated: false
+  hill_stop_s_m: 0.0
+  dummy_trigger_m: 0.0
+  traffic_stop_trigger_m: 0.0
+  parking_routes_verified: false
+  end_lane_classifier_verified: false
+
+acceptance:
+  wheels_up_test: false
+  estop_test: true
+  udp_watchdog_test: false
+  serial_watchdog_test: false
+  steering_limit_test: false
+  low_speed_straight_test: false
+  rtk_dropout_test: false
+  camera_dropout_test: false
+  lidar_emergency_test: false
+  dry_full_course_test: false
+  wet_test: false

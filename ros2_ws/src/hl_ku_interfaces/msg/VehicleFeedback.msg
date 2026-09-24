@@ -1,0 +1,20 @@
+std_msgs/Header header
+
+uint32 FAULT_ESTOP=1
+uint32 FAULT_WATCHDOG=2
+uint32 FAULT_STEERING_SENSOR=4
+uint32 FAULT_STEERING_LIMIT=8
+uint32 FAULT_UNDERVOLTAGE=16
+uint32 FAULT_OVERTEMPERATURE=32
+uint32 FAULT_PROTOCOL=64
+
+float32 steering_angle_rad
+float32 steering_target_rad
+float32 steering_output
+float32 applied_drive_duty
+float32 battery_voltage
+float32 board_temperature_c
+uint32 fault_flags
+uint32 last_command_sequence
+bool drive_enabled
+bool brake_active

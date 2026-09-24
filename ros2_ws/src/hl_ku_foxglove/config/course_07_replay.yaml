@@ -1,0 +1,39 @@
+gnss_localizer:
+  ros__parameters:
+    use_sim_time: true
+    datum_configured: true
+    datum_latitude_deg: 37.28894632868334
+    datum_longitude_deg: 127.10763692118333
+    datum_altitude_m: 90.66108
+    require_rtk_fixed: false
+    base_to_ant1_x_m: 0.802
+    base_to_ant1_y_m: 0.0
+    heading_mount_offset_deg: 180.0
+    allow_single_antenna_heading: false
+
+hl_ku_foxglove_visualizer:
+  ros__parameters:
+    use_sim_time: true
+    frame_id: map
+    active_variant_name: "Course 07 · 8경로 통합 형상검증 세트"
+    track_minimum_spacing_m: 0.15
+    track_maximum_points: 6000
+
+    # launch 파일이 parallel_csv 경로 8개를 패키지 share 경로에서
+    # 주입한다. 이 값들은 대체 실행을 위한 기본 빈값이다.
+    variant_01_file: ""
+    variant_01_name: "T1 / P1 / END1"
+    variant_02_file: ""
+    variant_02_name: "T1 / P1 / END2"
+    variant_03_file: ""
+    variant_03_name: "T1 / P2 / END1"
+    variant_04_file: ""
+    variant_04_name: "T1 / P2 / END2"
+    variant_05_file: ""
+    variant_05_name: "T2 / P1 / END1"
+    variant_06_file: ""
+    variant_06_name: "T2 / P1 / END2"
+    variant_07_file: ""
+    variant_07_name: "T2 / P2 / END1"
+    variant_08_file: ""
+    variant_08_name: "T2 / P2 / END2"

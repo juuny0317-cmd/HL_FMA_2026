@@ -1,0 +1,25 @@
+project:
+  purpose: HL Mando supervised campus route slice
+  measured_at: ''
+  operators: []
+gnss:
+  datum_latitude_deg: 37.54237088601
+  datum_longitude_deg: 127.07834103349181
+  datum_altitude_m: 20.203589666666666
+  base_to_ant1_x_m: 0.802
+  base_to_ant1_y_m: 0.0
+  heading_mount_offset_deg: 180.0
+course:
+  route_file: seg_m03.csv
+  route_calibrated: true
+  placement:
+    mode: current_rtk_pose
+    source_route: course_07_p1_t1_f1_fair_fsm_preview.csv
+    source_start_s_m: 260.0322
+    source_length_m: 3.2217
+    target_x_m: -0.6913755879745002
+    target_y_m: 0.442222177890827
+    target_heading_deg: -34.46699999999999
+    scale: 1.0
+    preserve_source_profile: true
+    allow_reverse: false

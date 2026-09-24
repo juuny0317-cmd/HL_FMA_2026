@@ -1,0 +1,6 @@
+gnss_localizer:
+  ros__parameters:
+    datum_configured: true
+    datum_latitude_deg: 37.28894632868334
+    datum_longitude_deg: 127.10763692118333
+    datum_altitude_m: 90.66108

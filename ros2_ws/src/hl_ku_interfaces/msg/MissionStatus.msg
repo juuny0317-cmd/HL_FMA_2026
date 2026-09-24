@@ -1,0 +1,29 @@
+std_msgs/Header header
+
+uint8 STATE_INIT=0
+uint8 STATE_READY=1
+uint8 STATE_ROUTE=2
+uint8 STATE_HILL_APPROACH=10
+uint8 STATE_HILL_HOLD=11
+uint8 STATE_HILL_CLIMB=12
+uint8 STATE_S_OBSTACLE=20
+uint8 STATE_TRAFFIC_APPROACH=30
+uint8 STATE_TRAFFIC_WAIT=31
+uint8 STATE_PERP_PARK=40
+uint8 STATE_DUMMY_ARMED=50
+uint8 STATE_DUMMY_BRAKE=51
+uint8 STATE_DUMMY_HOLD=52
+uint8 STATE_PARALLEL_PARK=60
+uint8 STATE_END_LANE=70
+uint8 STATE_FINISH=80
+uint8 STATE_FAULT=255
+
+uint8 state
+string state_name
+string zone
+float32 route_s_m
+float32 speed_limit_mps
+float32 lateral_offset_m
+bool brake_required
+bool mission_complete
+string detail

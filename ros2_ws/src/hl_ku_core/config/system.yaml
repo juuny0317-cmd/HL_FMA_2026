@@ -1,0 +1,332 @@
+um982_serial:
+  ros__parameters:
+    port: /dev/ttyGNSS
+    baudrate: 115200
+    frame_id: gnss_main
+    require_checksum: true
+    # 수신기 펌웨어별 명령을 확인하기 전에는 자동 설정하지 않는다.
+    configure_receiver: false
+    # ROS 2 Humble에서 빈 []는 byte array가 되므로 빈 문자열을 사용한다.
+    startup_commands: [""]
+    heading_timeout_sec: 0.30
+    position_timeout_sec: 0.30
+    velocity_timeout_sec: 0.30
+
+ntrip_client:
+  ros__parameters:
+    enabled: false
+    host: ""
+    port: 2101
+    mountpoint: ""
+    username: ""
+    password: ""
+    tls: false
+    gga_period_sec: 5.0
+    reconnect_sec: 3.0
+    rtcm_idle_timeout_sec: 3.0
+
+gnss_localizer:
+  ros__parameters:
+    # 현장 기준점을 2분 측량한 값으로 바꾼 뒤 true로 변경한다.
+    datum_configured: false
+    datum_latitude_deg: 0.0
+    datum_longitude_deg: 0.0
+    datum_altitude_m: 0.0
+    map_frame: map
+    # base_link(후륜축 중심)에서 ANT1까지 차량 좌표계 실측값.
+    base_to_ant1_x_m: 0.0
+    base_to_ant1_y_m: 0.0
+    heading_mount_offset_deg: 0.0
+    require_rtk_fixed: true
+    fixed_position_sigma_m: 0.02
+    fixed_heading_sigma_deg: 0.5
+
+velocity_selector:
+  ros__parameters:
+    lidar_odometry_topic: /lidar/odometry
+    lidar_timeout_sec: 0.25
+    gnss_timeout_sec: 0.40
+    gnss_preferred_above_mps: 0.35
+
+camera_perception:
+  ros__parameters:
+    image_topic: /camera/image_raw
+    lane_roi_top_ratio: 0.55
+    lane_meters_per_pixel: 0.005
+    minimum_lane_pixels: 500
+    stop_line_projection_ratio: 0.40
+    traffic_roi: [0.35, 0.02, 0.65, 0.45]
+    traffic_min_ratio: 0.015
+    publish_traffic_light: true
+
+yolo_perception:
+  ros__parameters:
+    image_topic: /camera/image_raw
+    traffic_confidence_threshold: 0.50
+    pedestrian_confidence_threshold: 0.50
+    iou_threshold: 0.45
+    device: ""
+    traffic_roi: [0.20, 0.00, 0.80, 0.60]
+    pedestrian_roi: [0.00, 0.00, 1.00, 1.00]
+    # Field-verified stop distance: require a pedestrian box at least 50% of frame height.
+    pedestrian_minimum_box_height_ratio: 0.50
+    traffic_minimum_box_area_px2: 36.0
+    edge_margin_ratio: 0.02
+    traffic_target_point: [0.50, 0.20]
+    maximum_target_distance_ratio: 0.45
+    maximum_processing_fps: 10.0
+    debug_image_enabled: true
+
+endpoint_perception:
+  ros__parameters:
+    image_topic: /camera/image_raw
+    # 2026-09-19 END_LANE bag 1,435프레임 재검증값. 사람 머리의 0.30
+    # red_signal 오인식을 제외하면서 실제 green_arrow/red_signal은 유지한다.
+    confidence_threshold: 0.50
+    iou_threshold: 0.45
+    device: ""
+    maximum_processing_fps: 10.0
+    debug_image_enabled: true
+    # 제공된 Course 07 영상의 종료 표지 관측 구간. 선택은 미리 기억하고
+    # 실제 F1/F2 경로 전환은 END_LANE에 진입한 뒤에만 수행한다.
+    activation_start_s_m: 643.7623
+    activation_end_s_m: 696.5
+
+lidar_perception:
+  ros__parameters:
+    scan_topic: /scan
+    vehicle_half_width_m: 0.35
+    corridor_margin_m: 0.15
+    # LiDAR 원점에서 앞 범퍼까지의 차량 x축 거리.
+    lidar_to_front_bumper_m: 0.15
+    # 실차 헤딩(+X) 대비 A3 스캔 원점의 장착각. 3 m 전방 판 검증값.
+    lidar_yaw_deg: -132.68
+    # 0.5 m 미만 근접 반사(차체/바닥)는 장애물과 회피 입력에서 제외한다.
+    minimum_range_m: 0.50
+    # 8 m에서 조기 감지하고, 우회 후보는 장애물 약 5 m 앞에서 이탈한다.
+    # 실차에서 8 m 탐지 신뢰도와 측정 가능한 /scan 범위를 확인해야 한다.
+    detection_range_m: 12.0
+    obstacle_trigger_m: 8.0
+    minimum_cluster_points: 3
+    gap_max_angle_deg: 55.0
+    avoidance_gain: 0.65
+    maximum_avoidance_steering_rad: 0.30
+    center_obstacle_deadband_m: 0.10
+    center_avoidance_steering_rad: 0.20
+    side_clearance_min_angle_deg: 10.0
+    obstacle_merge_depth_m: 0.50
+    minimum_avoidance_steering_rad: 0.08
+    avoidance_direction_hold_sec: 1.0
+
+scan_obstacle_mapper:
+  ros__parameters:
+    scan_topic: /scan
+    pose_topic: /localization/gnss_pose
+    obstacle_topic: /planning/obstacles_map
+    obstacle_discs_topic: /planning/obstacle_discs_map
+    obstacle_markers_topic: /planning/obstacle_markers_map
+    scan_points_topic: /planning/scan_points_map
+    status_topic: /planning/obstacle_mapper_status
+    map_frame: map
+    expected_scan_frame: laser
+    # 공통 기본값은 off. 본선 전체주행과 S자 단독 시나리오가 실측 장착값을 override한다.
+    geometry_verified: false
+    pose_timeout_sec: 1.50
+    maximum_stamp_offset_sec: 1.50
+    # 회피 경로는 LiDAR에서 0.5 m 이상 떨어진 실제 클러스터부터 생성한다.
+    minimum_range_m: 0.50
+    maximum_range_m: 12.0
+    front_half_angle_deg: 70.0
+    minimum_cluster_points: 3
+    maximum_cluster_gap_m: 0.35
+    # 후륜축 중심 기준 LiDAR 중심: 전방 1.25 m, 차량 중심선 위(좌우 0 m).
+    lidar_x_m: 1.25
+    lidar_y_m: 0.0
+    lidar_yaw_deg: -132.68
+    minimum_obstacle_radius_m: 0.40
+    radius_margin_m: 0.10
+
+local_detour:
+  ros__parameters:
+    # 공통 기본값은 off. 본선 전체주행과 S자 단독 시나리오만 실제 /scan 후보를 허용한다.
+    live_geometry_verified: false
+    obstacle_topic: /planning/obstacle_discs_map
+    corridor_half_width_m: 1.70
+    # 정상 감지 시 장애물 5 m 전부터 회피하고, 늦게 감지되면 1 m까지
+    # 진입 구간을 압축한다. 충돌/곡률 검사는 그대로 유지한다.
+    entry_length_m: 5.0
+    minimum_entry_length_m: 1.0
+    # 전방 스캔에 보이는 장애물 앞면에서 진행방향 뒤로 1.3 m까지 점유로 간주한다.
+    assumed_obstacle_length_m: 1.30
+
+perception_aggregator:
+  ros__parameters:
+    camera_timeout_sec: 0.30
+    lidar_timeout_sec: 0.30
+    end_signal_timeout_sec: 0.50
+
+path_tracker:
+  ros__parameters:
+    route_calibrated: false
+    wheelbase_m: 0.58
+    lookahead_base_m: 0.65
+    lookahead_speed_gain_sec: 0.45
+    maximum_steering_rad: 0.48
+    stanley_gain: 0.65
+    stanley_softening_mps: 0.65
+    stanley_control_offset_m: 0.58
+    stanley_heading_baseline_m: 1.0
+    reverse_stanley_gain: 0.45
+    reverse_stanley_softening_mps: 0.90
+    reverse_stanley_control_offset_m: 0.75
+    reverse_stanley_heading_baseline_m: 1.5
+    reverse_stanley_heading_gain: 0.70
+    reverse_use_measured_speed: true
+    curvature_preview_m: 3.0
+    curvature_segment_count: 3
+    lane_offset_gain: 0.30
+    lane_heading_gain: 0.45
+    minimum_lane_confidence: 0.55
+    enable_lane_correction: false
+    endpoint_transition_length_m: 8.0
+    # Fresh stack starts acquire the closest route segment ahead of the
+    # vehicle and disambiguate crossings with vehicle/path heading.
+    restart_forward_offset_m: 0.30
+    restart_maximum_heading_error_deg: 60.0
+    restart_heading_weight_m_per_rad: 2.0
+    # Once acquired, progress is monotonic and searches only a short distance
+    # ahead.  This prevents nearby course crossings from jumping route_s.
+    tracking_forward_search_m: 3.0
+    # Preserve ambiguous parking forward/reverse stages across a full ROS
+    # stack restart.  A checkpoint is ignored after one hour or when the car
+    # was moved more than 2 m away, then heading-aware global acquisition runs.
+    progress_checkpoint_file: ~/.local/state/hl_ku/route_progress.json
+    progress_checkpoint_max_age_sec: 3600.0
+    progress_checkpoint_position_tolerance_m: 2.0
+    progress_checkpoint_write_period_sec: 0.50
+
+mission_manager:
+  ros__parameters:
+    auto_arm: false
+    # 공통 기본값은 off. 본선 전체주행과 S자 단독 시나리오에서만 LiDAR 회피를 켠다.
+    enable_local_detour_steering: false
+    detour_candidate_timeout_sec: 0.75
+    detour_pose_timeout_sec: 0.40
+    detour_speed_limit_mps: 0.30
+    detour_stanley_gain: 0.65
+    detour_stanley_softening_mps: 0.65
+    detour_stanley_control_offset_m: 0.58
+    detour_stanley_heading_baseline_m: 1.0
+    detour_maximum_steering_rad: 0.30
+    default_speed_mps: 1.0
+    # Course 07 HILL_STOP을 기존 34.1405 m에서 출발지 쪽으로 1.5 m 이동.
+    # FSM 메타데이터가 없는 경로에서만 이 값으로 정지점을 판정한다.
+    hill_stop_s_m: 32.6405
+    hill_hold_sec: 3.0
+    hill_speed_mps: 0.7
+    # DUMMY 구간은 카메라 투표 대신 전방 주행 corridor의 LiDAR 장애물로 정지한다.
+    # obstacle_distance_m은 앞범퍼 기준이며 3 m 이내에서 즉시 제동 명령을 낸다.
+    use_lidar_dummy_stop: true
+    dummy_trigger_m: 3.0
+    dummy_hold_sec: 3.2
+    # LiDAR 모드가 꺼졌을 때 사용하는 보행자 YOLO fallback 설정.
+    pedestrian_hold_sec: 3.5
+    traffic_stop_trigger_m: 2.0
+    # 대회 설정: 빨강/노랑/초록/좌회전 모두 한 프레임에서 즉시 확정한다.
+    traffic_vote_window_frames: 1
+    red_required_votes: 1
+    yellow_required_votes: 1
+    green_required_votes: 1
+    left_required_votes: 1
+    traffic_vote_stale_sec: 0.5
+    pedestrian_vote_window_frames: 5
+    pedestrian_required_votes: 3
+    pedestrian_clear_consecutive_frames: 5
+    pedestrian_vote_stale_sec: 0.5
+    pedestrian_velocity_stale_sec: 0.5
+    maximum_steering_rad: 0.48
+    path_command_timeout_sec: 0.20
+    # 주차 공간은 단발성 군집으로 막힘을 확정하지 않고 5회 연속 관측한다.
+    parking_blocked_scans_required: 5
+    # 주차 공간 선택에만 5 m 제한을 적용한다. S자 회피의 감지 범위와는 별도다.
+    parking_lidar_maximum_range_m: 5.0
+    # T1/P2 전진-후진 전환점 0.75 m 전에 누적 관측을 최종 확정한다.
+    parking_decision_lead_m: 0.75
+
+vehicle_controller:
+  ros__parameters:
+    kp: 0.10
+    ki: 0.04
+    integral_limit: 2.0
+    maximum_duty: 0.75
+    maximum_forward_speed_mps: 1.50
+    maximum_reverse_speed_mps: 0.70
+    deadband_speed_mps: 0.03
+    nominal_voltage: 22.2
+    forward_speeds_mps: [0.25, 0.60, 1.00, 1.50]
+    forward_duties: [0.18, 0.27, 0.38, 0.55]
+    reverse_speeds_mps: [0.20, 0.40, 0.70]
+    reverse_duties: [0.20, 0.29, 0.43]
+    command_timeout_sec: 0.25
+    velocity_timeout_sec: 0.40
+    mission_timeout_sec: 0.30
+    # MDD20A 동적 브레이크는 경사 정지토크를 보장하지 않는다.
+    # 경사로 실측 후에만 활성화하고, 필요하면 기계식 브레이크를 사용한다.
+    hill_hold_enabled: false
+    hill_hold_duty: 0.0
+    # 경사 정지 중 0.04 m/s 이상 후진이 2초 지속될 때마다 전진 PWM을 3씩 올린다.
+    hill_hold_pwm_step: 3
+    hill_hold_step_interval_sec: 2.0
+    hill_hold_reverse_speed_mps: 0.04
+    # -1이면 일반 fixed_drive_pwm을 사용한다. 대회 TUI만 구간별 값을 전달한다.
+    hill_approach_pwm: -1
+    hill_post_stop_pwm: -1
+
+safety_supervisor:
+  ros__parameters:
+    drive_enabled: false
+    route_calibrated: false
+    require_rtk_fixed: true
+    require_gnss_heading: true
+    require_perception: true
+    require_camera: true
+    require_lidar: true
+    require_preflight: true
+    manual_test_mode: false
+    autonomous_maximum_drive_duty: 0.75
+    autonomous_maximum_steering_rad: 0.48
+    manual_maximum_drive_duty: 0.20
+    manual_maximum_steering_rad: 0.35
+    raw_command_timeout_sec: 0.20
+    gnss_timeout_sec: 0.40
+    pose_timeout_sec: 0.40
+    feedback_timeout_sec: 0.30
+    perception_timeout_sec: 0.35
+    mission_timeout_sec: 0.30
+    preflight_timeout_sec: 2.0
+    emergency_distance_m: 0.75
+    maximum_gnss_hdop: 1.5
+    maximum_correction_age_sec: 2.0
+    minimum_gnss_satellites: 8
+
+keyboard_teleop:
+  ros__parameters:
+    initial_drive_duty: 0.10
+    maximum_drive_duty: 0.20
+    drive_duty_step: 0.02
+    maximum_steering_rad: 0.35
+    steering_step_rad: 0.03
+    deadman_timeout_sec: 0.20
+    steering_hold_sec: 0.30
+    publish_rate_hz: 50.0
+
+mcu_udp_bridge:
+  ros__parameters:
+    remote_host: 192.168.10.20
+    remote_port: 15000
+    local_host: 0.0.0.0
+    local_port: 15001
+    send_rate_hz: 50.0
+    command_timeout_sec: 0.15
+    accept_feedback_from_remote_only: true
+    feedback_sequence_window: 10

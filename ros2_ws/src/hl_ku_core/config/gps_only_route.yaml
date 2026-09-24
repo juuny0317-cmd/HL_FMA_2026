@@ -1,0 +1,137 @@
+# 현재 차량의 GPS/RTK 단독 전역경로 시험 프로필.
+# 카메라와 LiDAR를 사용하지 않으므로 개방된 통제구역에서만 사용한다.
+um982_serial:
+  ros__parameters:
+    port: /dev/serial/by-path/pci-0000:00:14.0-usb-0:2.3:1.0-port0
+    baudrate: 115200
+    serial_reconnect_sec: 1.0
+    # 어제 RTK FIXED/듀얼 헤딩에 성공했던 UM982 저장 설정을 그대로 쓴다.
+    # 주행 시작마다 MODE를 바꾸면 RTK 엔진이 재초기화되므로 강제하지 않는다.
+    configure_receiver: false
+    startup_commands: [""]
+    # GPTHS 1은 1초 주기이므로 0.30초 기본값은 정상 문장 사이에서 끊긴다.
+    # 한 주기를 수용하되 1.5초 이상 새 헤딩이 없으면 fail-closed 한다.
+    heading_timeout_sec: 1.5
+    # 현재 수신기의 RMC 속도 문장은 약 1 Hz이다. 기본 0.30 s를 그대로
+    # 사용하면 정상 RMC 사이에서도 velocity_valid가 주기적으로 false가 된다.
+    # 1회 누락까지 허용하지 않도록 1.5 s 안에서 fail-closed 처리한다.
+    velocity_timeout_sec: 1.5
+
+ntrip_client:
+  ros__parameters:
+    # RTS2/VRS 스트림의 일시적인 패킷 간격 때문에 3초마다 연결을 다시
+    # 맺지 않도록 한다. 실제 주행 허용 보정나이는 아래 safety의 2초를
+    # 그대로 사용하므로 오래된 보정으로 주행하지 않는다.
+    rtcm_idle_timeout_sec: 10.0
+
+gnss_localizer:
+  ros__parameters:
+    # RViz 위치 확인은 RTK FLOAT/DGPS에서도 허용한다. 품질에 따라 공분산이
+    # 커지며, 실제 구동은 safety_supervisor의 require_rtk_fixed가 계속 막는다.
+    require_rtk_fixed: false
+    # course_06을 기록할 때 함께 생성된 첫 RTK FIX를 ENU 원점으로 사용한다.
+    datum_configured: true
+    datum_latitude_deg: 37.54152660928055
+    datum_longitude_deg: 127.07811752845153
+    datum_altitude_m: 16.898768083333334
+    # 실측: 후륜축 중심에서 전방 ANT1 위상중심까지 차량 전방 0.802 m.
+    base_to_ant1_x_m: 0.802
+    # 두 안테나가 차량 중심선에 있다는 현재 설치 조건. 좌측이면 양수로 실측 보정.
+    base_to_ant1_y_m: 0.0
+    # 실차 RViz 검증 결과 UM982 헤딩 화살표가 차량 전방과 정확히 반대였다.
+    # 수신기 안테나 포트/기준선 극성을 차량 전방으로 맞추는 180 deg 보정.
+    heading_mount_offset_deg: 180.0
+    allow_single_antenna_heading: false
+
+velocity_selector:
+  ros__parameters:
+    use_lidar_odometry: false
+    # UM982 RMC 속도 문장이 약 1 Hz이므로 문장 사이에 출력을 끊지 않는다.
+    # 새 문장이 1.5초 안에 오지 않으면 그대로 fail-closed 된다.
+    gnss_timeout_sec: 1.5
+
+path_tracker:
+  ros__parameters:
+    wheelbase_m: 0.58
+    maximum_steering_rad: 0.48
+    lookahead_base_m: 0.80
+    lookahead_speed_gain_sec: 0.40
+    # 전진과 주차 후진 경로 모두 Stanley 100%를 사용한다. Pure Pursuit는
+    # 비교용 진단 토픽만 발행하며 실제 조향 명령에는 섞지 않는다.
+    stanley_gain: 0.65
+    stanley_softening_mps: 0.65
+    stanley_control_offset_m: 0.58
+    stanley_heading_baseline_m: 1.0
+    reverse_stanley_gain: 0.45
+    reverse_stanley_softening_mps: 0.90
+    reverse_stanley_control_offset_m: 0.75
+    reverse_stanley_heading_baseline_m: 1.5
+    reverse_stanley_heading_gain: 0.70
+    reverse_use_measured_speed: true
+    curvature_preview_m: 3.0
+    curvature_segment_count: 3
+    finish_tolerance_m: 0.50
+    enable_lane_correction: false
+
+mission_manager:
+  ros__parameters:
+    auto_arm: false
+    default_speed_mps: 0.30
+    hill_speed_mps: 0.25
+    maximum_steering_rad: 0.48
+
+vehicle_controller:
+  ros__parameters:
+    # T870은 실측상 명령 20 이하에서 정지마찰을 넘지 못했다. 현재 감독하
+    # 경로시험은 전진 요구가 있을 때 기존 20의 1.5배인 명령 30을 사용한다.
+    kp: 0.0
+    ki: 0.0
+    maximum_duty: 0.30
+    minimum_forward_duty: 0.30
+    maximum_forward_speed_mps: 1.00
+    maximum_reverse_speed_mps: 0.30
+    forward_speeds_mps: [0.10, 0.25, 0.45, 1.00]
+    forward_duties: [0.08, 0.10, 0.12, 0.30]
+    reverse_speeds_mps: [0.10, 0.20, 0.30]
+    reverse_duties: [0.08, 0.10, 0.15]
+
+safety_supervisor:
+  ros__parameters:
+    require_rtk_fixed: true
+    require_gnss_heading: true
+    require_perception: false
+    require_camera: false
+    require_lidar: false
+    require_preflight: true
+    autonomous_maximum_drive_duty: 0.30
+    autonomous_maximum_steering_rad: 0.48
+    # 통제구역 저속 시험에서 사용할 수 있는 최소 품질값. RTK FIXED와
+    # 유효 헤딩은 계속 필수이며, 이보다 낮은 품질에서는 주행하지 않는다.
+    minimum_gnss_satellites: 8
+    maximum_gnss_hdop: 2.5
+    maximum_correction_age_sec: 2.0
+
+nucleo_serial_bridge:
+  ros__parameters:
+    # run_mando_tui.sh의 ST-LINK mux가 제어/라이다 채널을 분리한다.
+    port: /tmp/nucleo-control
+    baudrate: 115200
+    send_rate_hz: 20.0
+    command_timeout_sec: 0.20
+    # 라이다 멀티플렉싱 중 간헐적인 ACK 지연을 수용한다.
+    serial_timeout_sec: 0.05
+    maximum_consecutive_ack_failures: 3
+    drive_command_scale: 100.0
+    maximum_drive_command: 30
+    allow_reverse: false
+    maximum_steering_rad: 0.48
+    steer_left_adc: 58744
+    steer_center_adc: 31974
+    steer_right_adc: 5111
+
+route_recorder:
+  ros__parameters:
+    minimum_spacing_m: 0.20
+    default_speed_mps: 0.30
+    allow_overwrite: false
+    force_finish_tag: true

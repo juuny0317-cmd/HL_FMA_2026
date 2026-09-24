@@ -1,0 +1,68 @@
+# HL 만도 Course 07 용인 본선 전용 TUI.
+# 시험장 측정 ENU를 그대로 사용하며 현재 위치로 경로를 옮기지 않는다.
+version: 1
+
+common:
+  title: HL MANDO COURSE 07 COMPETITION CONSOLE
+  system_config: ../ros2_ws/src/hl_ku_core/config/system.yaml
+  gps_config: ../ros2_ws/src/hl_ku_core/config/mando_competition_gps.yaml
+  course_datum_file: ./course_07_competition_datum.yaml
+  receiver_config: ../ros2_ws/src/hl_ku_core/config/rtk_field_test.yaml
+  ntrip_config: ../ros2_ws/src/hl_ku_core/config/ntrip_private.yaml
+  recording_script: ./record_all_topics.sh
+  finger_drive_script: ./run_finger_drive.sh
+  log_directory: ../logs/mando_competition_tui
+  camera_device: /dev/v4l/by-id/usb-046d_C270_HD_WEBCAM_200901010001-video-index0
+  require_recording: false
+  enable_local_detour_steering: false
+
+scenarios:
+  - number: 1
+    name: 본선 전체주행
+    kind: route
+    default_pwm: 30
+    description: Course 07 전체 · CSV 평행주차 P1/P2 · 신호 YOLO·더미 LiDAR 정지 · 종료 F1/F2 자동선택
+    variants:
+      - name: 전체코스 P1/T1 기본 · 주차/F1-F2 자동선택
+        segment_code: RACE-FULL
+        fsm_label: ALL
+        direction_summary: 전진·후진 전체
+        footprint: P1 약 698m / P2 약 712m (T1/F1 기준)
+        run_summary: 경사·굴절·S자·주차·신호 YOLO·더미 LiDAR 정지·종료 F1/F2 순차 실행
+        description: 시험장 원본 ENU 그대로 · 종료는 F1 기본, 빨강이 초록보다 왼쪽이면 F2 고정
+        route_file: ../ros2_ws/src/hl_ku_core/routes/mando/competition/course_07_full.csv
+        calibration_file: ../ros2_ws/src/hl_ku_core/config/mando/competition/course_07_full_calibration.yaml
+        source_route: ../ros2_ws/src/hl_ku_core/routes/course_07_mission.csv
+        source_variant_id: p1_t1_f1
+        preserve_source_profile: true
+        source_start_s_m: 0.0
+        # P2 출차 경로가 길므로 가장 긴 조합까지 모두 적재한다.
+        source_length_m: 716.0
+        auto_place_at_current_pose: false
+        preflight: field
+        # 0은 출발 위치 거리 제한 해제. 현재 ENU 위치에서 진행 방향 앞쪽
+        # waypoint를 잡고 해당 mission/FSM부터 이어서 시작한다.
+        start_position_tolerance_m: 0.0
+        # path tracker의 전방 경로 검색 한계와 동일하게 설정한다.
+        # 반대 방향 경로는 계속 제외하면서 현장 재시작을 허용한다.
+        start_heading_tolerance_deg: 60.0
+        minimum_length_m: 695.0
+        maximum_length_m: 716.0
+        allow_reverse: true
+        direction_change_hold_sec: 0.75
+        enable_lidar_detour: true
+        enable_parking_selection: true
+        enable_camera_perception: true
+        enable_yolo_perception: true
+        hill_hold_tuning: true
+        default_hill_approach_pwm: 40
+        default_hill_hold_pwm: 10
+        default_hill_post_stop_pwm: 30
+
+  - number: 2
+    name: 손가락 주행
+    kind: finger
+    # 건대 TUI와 동일하게 W/S를 누를 때마다 10 PWM씩 누적한다.
+    default_pwm: 10
+    maximum_pwm: 100
+    description: 건대용과 동일 · W/S 구동 PWM 누적 · A/D 조향 누적·고정 · SPACE 정지

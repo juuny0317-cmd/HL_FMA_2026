@@ -1,6 +1,7 @@
 # HL FMA 2026 · 1/5-Scale Autonomous Vehicle
 
 ![Status](https://img.shields.io/badge/STATUS-COMPLETED-2ea043?style=flat-square&labelColor=0d1117)
+![Result](https://img.shields.io/badge/RESULT-ENCOURAGEMENT_AWARD-0969da?style=flat-square&labelColor=0d1117)
 ![ROS 2](https://img.shields.io/badge/ROS_2-Humble-ff7a00?style=flat-square&labelColor=0d1117)
 ![Platform](https://img.shields.io/badge/PLATFORM-1%2F5_SCALE_VEHICLE-0969da?style=flat-square&labelColor=0d1117)
 
@@ -8,7 +9,7 @@ HL FMA 2026을 위해 제작한 1/5 스케일 자율주행 차량 프로젝트�
 
 ![대회 현장의 HL FMA 2026 차량](docs/portfolio/competition-vehicle.jpg)
 
-> 이 저장소는 팀 저장소 `yunny22/HL_KU`의 최종 대회 코드를 바탕으로 공개용 문서와 사진을 다시 구성한 포트폴리오 저장소다. 팀 전체 구현과 개인 참여 경험을 구분해 설명하며, 대회 완주·수상·입상을 주장하지 않는다.
+> 이 저장소는 팀 저장소 `yunny22/HL_KU`의 최종 대회 코드를 바탕으로 공개용 문서와 사진을 다시 구성한 포트폴리오 저장소다. 팀 전체 구현과 개인 참여 경험을 구분해 설명하며, 대회 결과는 **장려상**으로 기록한다. 완주 여부는 별도로 주장하지 않는다.
 
 [포트폴리오 상세 페이지](https://juuny0317-cmd.github.io/projects/hl-fma2026/) · [원본 팀 프로젝트](https://github.com/yunny22/HL_KU)
 
@@ -24,6 +25,7 @@ HL FMA 2026을 위해 제작한 1/5 스케일 자율주행 차량 프로젝트�
 | 임베디드 | NUCLEO-H723ZG · 조향각 폐루프 · watchdog |
 | 구동 | MDD20A 구동모터 · MD10C 조향모터 |
 | 현장 운용 | TUI 시나리오 선택 · Foxglove 상태/경로/FSM 모니터링 |
+| 대회 결과 | 장려상 |
 
 ## 기여 범위와 공동 개발
 

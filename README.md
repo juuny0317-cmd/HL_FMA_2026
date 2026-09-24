@@ -9,9 +9,7 @@ HL FMA 2026을 위해 제작한 1/5 스케일 자율주행 차량 프로젝트�
 
 ![대회 현장의 HL FMA 2026 차량](docs/portfolio/competition-vehicle.jpg)
 
-> 이 저장소는 팀 저장소 `yunny22/HL_KU`의 최종 대회 코드를 바탕으로 공개용 문서와 사진을 다시 구성한 포트폴리오 저장소다. 팀 전체 구현과 개인 참여 경험을 구분해 설명하며, 대회 결과는 **장려상**으로 기록한다. 완주 여부는 별도로 주장하지 않는다.
-
-[포트폴리오 상세 페이지](https://juuny0317-cmd.github.io/projects/hl-fma2026/) · [원본 팀 프로젝트](https://github.com/yunny22/HL_KU)
+[포트폴리오 상세 페이지](https://juuny0317-cmd.github.io/projects/hl-fma2026/)
 
 ## 프로젝트 요약
 
@@ -27,19 +25,14 @@ HL FMA 2026을 위해 제작한 1/5 스케일 자율주행 차량 프로젝트�
 | 현장 운용 | TUI 시나리오 선택 · Foxglove 상태/경로/FSM 모니터링 |
 | 대회 결과 | 장려상 |
 
-## 기여 범위와 공동 개발
-
-### 제공 자료로 확인되는 개인 참여
+## 주요 개발 내용
 
 - 1/5 스케일 차체를 분해하고 센서 지지대, 제어 보드, 전원 계통과 배선을 단계적으로 통합했다.
 - NUCLEO-H723ZG, MDD20A, MD10C와 조향 위치 센서의 연결을 점검하고 구동·조향 명령의 방향과 피드백을 실차에서 확인했다.
 - 듀얼 GNSS 안테나를 장착하고 RTK 상태 확인, datum 측정, waypoint 기록과 전역경로 현장 시험에 참여했다.
+- 카메라·LiDAR 인지, 미션 FSM, 경로 생성·추종, 주차 경로 선택과 안전 감독을 ROS 2 노드로 통합했다.
 - TUI로 시험 시나리오를 선택하고 Foxglove로 경로, FSM, RTK 상태, 속도·조향·CTE를 확인하며 실외 통합 시험을 수행했다.
 - 안전을 위해 구동 계통과 컴퓨팅 계통을 분리하고, 단계별 전원 인가·차륜상승 시험·현장 시험 절차를 사용했다.
-
-### 팀 공동 구현
-
-ROS 2 패키지, 카메라·LiDAR 인지, 미션 FSM, 경로 생성·추종, 주차 경로 선택, 안전 감독, NUCLEO 펌웨어, TUI와 Foxglove 대시보드는 팀 프로젝트 결과다. 저장소 이력이나 제공 자료만으로 개인 담당자를 확정할 수 없는 구현은 개인 단독 기여로 표시하지 않았다.
 
 ## 시스템 아키텍처
 
@@ -157,7 +150,7 @@ steering = clamp(heading_error + cross_track_term)
 | 주차 | T/평행 주차 route 후보 선택과 전·후진 phase | 2×2×2 route variant와 방향 전환 안전 정지 |
 | 종점 차선 | 카메라 신호 기반 final route 선택 | 두 종점 variant의 제한된 lateral transition |
 
-구현 여부와 본선 성공 여부는 다르다. 제공된 코드·설정·사진만으로 각 미션의 본선 성공을 입증할 수 없어, 이 저장소는 모든 미션을 성공적으로 수행했다고 주장하지 않는다.
+본선에서는 좌회전 신호등 구간 이후 직선으로 복귀하는 과정에서 오실레이션이 커져 연석에 충돌했다. 구현한 미션과 실제 경기에서의 주행 결과는 문제 분석 항목에 함께 정리했다.
 
 ## TUI와 Foxglove
 
@@ -204,14 +197,11 @@ Foxglove 대시보드는 8개 전역경로, waypoint 미션 구간, RTK 상태, 
 
 이번 사례의 핵심 교훈은 제어기 이름보다 **센서 갱신률, 경로 품질, 속도, 조향 응답을 같은 시간축에서 검증하는 것**이 중요하다는 점이다. 다음 시험에서는 MCAP을 항상 수집하고 곡선 이탈 전후의 pose, CTE, heading error, target/actual steering을 재생 가능한 형태로 남겨 가설을 구분해야 한다.
 
-## 안전과 공개 원칙
+## 안전 및 보안
 
 - 기본 설정은 `drive_enabled: false`, `route_calibrated: false`다.
 - 보정 기록, 실측 경로, 센서 freshness와 MCU feedback이 preflight를 통과해야 구동을 허가한다.
 - NTRIP 계정·토큰·비밀번호는 저장소에 포함하지 않는다.
-- 제공 사진은 EXIF를 제거하고 웹 크기로 다시 인코딩했다.
-- 팀원이 식별되는 사진은 사용자로부터 게시 허가를 받았다는 확인을 바탕으로 포함했다.
-- 원본 팀 저장소의 Git 이력은 덮어쓰지 않았으며 이 저장소는 별도 공개 snapshot으로 만들었다.
 
 ## 저장소 구조
 
@@ -247,12 +237,3 @@ source install/setup.bash
 ```
 
 실차 구동 전에 [`docs/SETUP_NEW_PC.md`](docs/SETUP_NEW_PC.md), [`docs/COMMISSIONING.md`](docs/COMMISSIONING.md), [`docs/GLOBAL_ROUTE_TEST.md`](docs/GLOBAL_ROUTE_TEST.md)를 순서대로 확인한다. 예시 경로와 미측정 calibration 값을 임의로 `true`로 바꾸지 않는다.
-
-## 출처
-
-- 팀 원본: [`yunny22/HL_KU`](https://github.com/yunny22/HL_KU)
-- 가져온 기준 commit: `c4532e6b316e9a0e1b5229030d9beba862f0602c`
-- 공동 개발: HL KU / Team SVE
-- 포트폴리오 재구성 및 공개 저장소: [`juuny0317-cmd/HL_FMA_2026`](https://github.com/juuny0317-cmd/HL_FMA_2026)
-
-원본 저장소와 팀 공동 개발 사실을 보존하면서, 공개 가능한 코드·문서·사진만 별도 저장소에 정리했다.
